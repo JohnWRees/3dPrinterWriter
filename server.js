@@ -2,7 +2,12 @@ var http = require('http');
 var fs = require('fs');
 var formidable = require("formidable");
 var util = require('util');
-
+var SerialPort = require('serialport');
+var port = new SerialPort('/dev/tty-usbserial1', function (err) {
+  if (err) {
+    return console.log('Error: ', err.message);
+  }
+});
 var server = http.createServer(function (req, res) {
     if (req.method.toLowerCase() == 'get') {
         displayForm(res);
@@ -25,7 +30,13 @@ function displayForm(res) {
 
 function processAllFieldsOfTheForm(req, res) {
     var form = new formidable.IncomingForm();
-
+	
+	port.write('G28', function(err) {
+		if (err) {
+			return console.log('Error on write: ', err.message);
+		}
+		console.log('message written');
+		});
     form.parse(req, function (err, fields, files) {
         //Store the data from the fields in your data store.
         //The data store could be a file or database or any other store based
