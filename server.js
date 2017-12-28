@@ -4,9 +4,10 @@ var formidable = require("formidable");
 var util = require('util');
 var SerialPort = require('serialport');
 var port = new SerialPort('/dev/tty-usbserial1', function (err) {
-  if (err) {
-    return console.log('Error: ', err.message);
-  }
+	baudRate: 115200;
+	if (err) {
+		return console.log('Error: ', err.message);
+	}
 });
 var server = http.createServer(function (req, res) {
     if (req.method.toLowerCase() == 'get') {
